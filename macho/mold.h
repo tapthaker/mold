@@ -154,6 +154,8 @@ public:
   std::string_view install_name;
   i64 dylib_idx = 0;
   std::atomic_bool is_needed = false;
+  std::vector<std::string> reexported_libs;
+  std::vector<std::string> reexported_frameworks;
 
 private:
   void parse_dylib(Context<E> &ctx);

@@ -703,6 +703,14 @@ void DylibFile<E>::parse(Context<E> &ctx) {
     for (std::string_view s : tbd.objc_ivars)
       add_symbol("_OBJC_IVAR_$_" + std::string(s));
 
+    for (std::string_view lib : tbd.reexported_libs) {
+      bool is_framework = lib.find(".framework") != std::string_view::npos;
+      std::string framework_or_lib_name = filepath(lib).stem();
+      is_framework
+          ? this->reexported_frameworks.push_back(framework_or_lib_name)
+          : this->reexported_libs.push_back(framework_or_lib_name);
+    }
+
     install_name = tbd.install_name;
     break;
   }
